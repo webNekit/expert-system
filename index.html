@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Диагностика заболеваний гороха</title>
+    <title>Диагностика болезней гороха</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -134,7 +134,7 @@
                 </button>
             </div>
 
-            <h1 class="text-3xl font-semibold text-primary mb-6 text-center">Диагностика заболеваний гороха</h1>
+            <h1 class="text-3xl font-semibold text-primary mb-6 text-center">Диагностика болезней гороха</h1>
 
             <div class="flex justify-between items-center mb-2">
                 <span class="text-sm font-medium text-secondary">Прогресс диагностики</span>
@@ -171,7 +171,7 @@
                     <div id="mainResult" class="mb-8"></div>
 
                     <div class="mb-6">
-                        <h3 class="text-lg font-semibold mb-3 text-primary">Все возможные заболевания:</h3>
+                        <h3 class="text-lg font-semibold mb-3 text-primary">Все возможные болезни:</h3>
                         <div id="allDiseasesList" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
                     </div>
 
@@ -304,7 +304,7 @@
                 showNextQuestion();
             })
             .catch(err => {
-                elements.question.innerText = "Ошибка загрузки данных о заболеваниях. Пожалуйста, обновите страницу.";
+                elements.question.innerText = "Ошибка загрузки данных о болезних. Пожалуйста, обновите страницу.";
                 console.error(err);
             });
 
@@ -323,7 +323,7 @@
                     name: disease.name,
                     latin: disease.latin,
                     treatment: disease.treatment,
-                    questions: disease.questions.map(q => q.text) // Все вопросы для этого заболевания
+                    questions: disease.questions.map(q => q.text) // Все вопросы для этого болезни
                 };
 
                 // Добавляем все вопросы в общий пул
@@ -333,11 +333,11 @@
                             text: q.text,
                             weight: q.weight,
                             asked: false,
-                            diseases: [] // Заболевания, для которых этот вопрос актуален
+                            diseases: [] // болезни, для которых этот вопрос актуален
                         });
                     }
 
-                    // Находим вопрос в общем пуле и добавляем к нему заболевание
+                    // Находим вопрос в общем пуле и добавляем к нему болезнь
                     const question = allQuestions.find(aq => aq.text === q.text);
                     if (question) {
                         question.diseases.push({
@@ -350,8 +350,8 @@
 
             // Рассчитываем информативность каждого вопроса
             allQuestions.forEach(question => {
-                // Информативность = насколько хорошо вопрос различает заболевания
-                // Чем меньше заболеваний содержат этот вопрос, тем он информативнее
+                // Информативность = насколько хорошо вопрос различает болезни
+                // Чем меньше болезней содержат этот вопрос, тем он информативнее
                 const diseaseCount = question.diseases.length;
                 const avgWeight = question.diseases.reduce((sum, d) => sum + d.weight, 0) / diseaseCount;
                 question.informativeness = (1 / diseaseCount) * avgWeight;
@@ -380,7 +380,7 @@
             nextQuestion.asked = true;
             askedQuestions.add(nextQuestion.text);
 
-            // Показываем индикатор уверенности для топ-1 заболевания
+            // Показываем индикатор уверенности для топ-1 болезни
             const topDisease = getTopDiseases(1)[0];
             if (topDisease) {
                 elements.confidenceIndicator.classList.remove("hidden");
@@ -475,7 +475,7 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Вероятность заболевания (%)',
+                            label: 'Вероятность болезни (%)',
                             data: confidences,
                             backgroundColor: backgroundColors,
                             borderWidth: 1
@@ -505,7 +505,7 @@
                                 },
                                 title: {
                                     display: true,
-                                    text: 'Заболевания',
+                                    text: 'Болезнь',
                                     color: textColor
                                 },
                                 grid: {
@@ -568,19 +568,19 @@
                 };
 
                 // Заголовок
-                drawText("Отчёт о диагностике заболеваний гороха", 50, 50, 18, true);
+                drawText("Отчёт о диагностике болезней гороха", 50, 50, 18, true);
 
                 // Информация о диагностике
                 drawText(`Дата диагностики: ${date}`, 50, 80);
                 drawText(`Количество заданных вопросов: ${questionsAskedCount}`, 50, 100);
 
                 // Основной диагноз
-                drawText("Наиболее вероятное заболевание:", 50, 140, 14, true);
+                drawText("Наиболее вероятное болезнь:", 50, 140, 14, true);
                 drawText(`${topDisease.name} (${topDisease.latin})`, 50, 160);
                 drawText(`Вероятность: ${(topDisease.confidence * 100).toFixed(1)}%`, 50, 180);
 
-                // Все заболевания
-                drawText("Все возможные заболевания:", 50, 220, 14, true);
+                // Все болезни
+                drawText("Все возможные болезни:", 50, 220, 14, true);
 
                 let yPos = 240;
                 allDiseases.forEach(disease => {
@@ -690,7 +690,7 @@
             // Основной результат
             elements.mainResult.innerHTML = `
                 <div class="card-bg border border-color rounded-xl p-5 mb-4">
-                    <h2 class="text-xl font-semibold text-primary mb-2">Наиболее вероятное заболевание</h2>
+                    <h2 class="text-xl font-semibold text-primary mb-2">Наиболее вероятное болезнь</h2>
                     <p class="text-lg"><strong>${topDisease.name}</strong> (<em>${topDisease.latin}</em>)</p>
                     <p class="text-sm text-secondary mt-1">Вероятность: ${(topDisease.confidence * 100).toFixed(1)}%</p>
                     <div class="mt-4">
@@ -700,7 +700,7 @@
                 </div>
             `;
 
-            // Список всех заболеваний
+            // Список всех болезней
             elements.allDiseasesList.innerHTML = '';
             allDiseases.forEach(disease => {
                 if (disease.confidence > 0.05) {
